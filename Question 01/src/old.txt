@@ -93,7 +93,7 @@ public class Main {
 
             //Calculations
             if(CostPerLib < CostPerRoad){
-                System.out.println(CostPerLib * Cities);
+               System.out.println(CostPerLib * Cities);
             }else{
 
                 Tree tree1 = new Tree();
