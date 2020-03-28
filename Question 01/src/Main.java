@@ -78,11 +78,11 @@ public class Main {
 
             int Cities = Integer.parseInt(s1[0]);
             int Roads = Integer.parseInt(s1[1]);
-            int CostPerLib = Integer.parseInt(s1[2]);
-            int CostPerRoad = Integer.parseInt(s1[3]);
+            long CostPerLib = Long.parseLong(s1[2]);
+            long CostPerRoad = Long.parseLong(s1[3]);
             int answer = 0;
-            int NumberOfPaths = 0;
-            int NumberOfTrees = 0;
+            long NumberOfPaths = 0;
+            long NumberOfTrees = 0;
 
             int[][] n1 = new int[Roads][2];
             for(int x=0;x<Roads;x++){
@@ -115,7 +115,9 @@ public class Main {
                         NumberOfTrees++;
                     }
                 }
-                System.out.println(NumberOfPaths*CostPerRoad+NumberOfTrees*CostPerLib);
+                long ans1 = NumberOfPaths*CostPerRoad;
+                long ans2 = (NumberOfTrees*CostPerLib)+ans1;
+                System.out.println(ans2);
             }
         }
     }
