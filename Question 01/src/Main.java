@@ -1,4 +1,59 @@
 import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Node {
+    int data;
+    List<Node> children = new ArrayList<>();
+
+    public Node(){
+
+    }
+
+    public Node(int data){
+        this.data = data;
+    }
+
+    public void setData(int data){
+        this.data = data;
+    }
+}
+
+
+class Tree {
+
+    public Boolean addNode(Node Parent, Node Child){
+        if(Parent.children.size()==0 || Child.children.size()==0){
+            Parent.children.add(Child);
+            Child.children.add(Parent);
+            return true;
+        }else{
+            if(searchNode(Parent,Child,null)==null){
+                Parent.children.add(Child);
+                Child.children.add(Parent);
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    public Node searchNode(Node Parent, Node Child, Node Head){
+        if(Parent!=Child){
+            Node Temp = null;
+            for(int x=0;x<Parent.children.size();x++){
+                Node Children = Parent.children.get(x);
+                if(Head!=Children){
+                    Temp = searchNode(Parent.children.get(x),Child, Parent);
+                }
+            }
+            return Temp;
+        }else{
+            return Parent;
+        }
+    }
+}
 public class Main {
 
     public static void main(String args[]){
@@ -15,6 +70,8 @@ public class Main {
             int CostPerLib = Integer.parseInt(s1[2]);
             int CostPerRoad = Integer.parseInt(s1[3]);
             int answer = 0;
+            int NumberOfPaths = 0;
+            int NumberOfTrees = 0;
 
             int[][] n1 = new int[Roads][2];
             for(int x=0;x<Roads;x++){
@@ -25,12 +82,35 @@ public class Main {
 
             //Calculations
             if(CostPerLib < CostPerRoad){
-                System.out.println(CostPerLib * Cities);
+               System.out.println(CostPerLib * Cities);
             }else{
 
+                Tree tree1 = new Tree();
+                Node[] nodes = new Node[Cities];
+                for(int x=0;x<Cities;x++){
+                    nodes[x] = new Node();
+                    nodes[x].setData(x);
+                }
 
+                for(int x=0;x<Roads;x++){
+                    if(tree1.addNode(nodes[n1[x][0]-1],nodes[n1[x][1]-1])) {
+                        NumberOfPaths++;
+                    }
+                }
+
+                for(int x=0;x<Cities;x++){
+                    if(nodes[x]!=null){
+                        for(int y=0;y<nodes[x].children.size();y++){
+                            if(nodes[x].children.get(y)!=null){
+                                nodes[nodes[x].children.get(y).data]=null;
+                            }
+                        }
+                        nodes[x]=null;
+                        NumberOfTrees++;
+                    }
+                }
+                System.out.println(NumberOfPaths*CostPerRoad+NumberOfTrees*CostPerLib);
             }
-
         }
     }
 }
